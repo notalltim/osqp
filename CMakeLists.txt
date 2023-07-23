@@ -234,6 +234,14 @@ endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/configure/osqp_configure.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/include/public/osqp_configure.h NEWLINE_STYLE LF)
 
+option(QDLDL_EXTERNAL "Enable external QDLDL source" OFF)
+
+if(QDLDL_EXTERNAL)
+  set(QDLDL_ROOT
+      "${CMAKE_CURRENT_SOURCE_DIR}/algebra/_common/lin_sys/qdldl/qdldl_sources"
+      CACHE PATH "Path to external QDLDL source")
+  message(STATUS "Using external QDLDL at ${QDLDL_ROOT}")
+endif()
 
 # CUDA support
 # ----------------------------------------------
@@ -431,7 +439,7 @@ if( OSQP_BUILD_STATIC_LIB )
   target_include_directories(osqpstatic PRIVATE ${osqplib_includes})
   target_include_directories(
     osqpstatic PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/public;${CMAKE_CURRENT_BINARY_DIR}/include/public>"
-                      "$<INSTALL_INTERFACE:osqp>")
+                      "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/osqp>")
 
   if(MATLAB)
     target_link_libraries(osqpstatic ${Matlab_LIBRARIES})
@@ -453,7 +461,7 @@ if(OSQP_BUILD_SHARED_LIB)
   endif()
   target_include_directories(osqp PRIVATE ${osqplib_includes})
   target_include_directories(osqp PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-                                         "$<INSTALL_INTERFACE:osqp>")
+                                         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/osqp>")
 
   # Link against the libraries for the algebras
   target_link_libraries(osqp ${osqplib_link_libs})
