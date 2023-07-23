@@ -439,7 +439,7 @@ if( OSQP_BUILD_STATIC_LIB )
   target_include_directories(osqpstatic PRIVATE ${osqplib_includes})
   target_include_directories(
     osqpstatic PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/public;${CMAKE_CURRENT_BINARY_DIR}/include/public>"
-                      "$<INSTALL_INTERFACE:include>")
+                      "$<INSTALL_INTERFACE:osqp>")
 
   if(MATLAB)
     target_link_libraries(osqpstatic ${Matlab_LIBRARIES})
@@ -461,7 +461,7 @@ if(OSQP_BUILD_SHARED_LIB)
   endif()
   target_include_directories(osqp PRIVATE ${osqplib_includes})
   target_include_directories(osqp PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-                                         "$<INSTALL_INTERFACE:include>")
+                                         "$<INSTALL_INTERFACE:osqp>")
 
   # Link against the libraries for the algebras
   target_link_libraries(osqp ${osqplib_link_libs})
